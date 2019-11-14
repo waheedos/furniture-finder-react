@@ -1,0 +1,90 @@
+@font-face {
+	font-family: 'Helvetica Neue LT Std';
+	src: local('Helvetica Neue LT Std 35 Thin'), local('HelveticaNeueLTStd-Th'),
+	url('../fonts/hinted-HelveticaNeueLTStd-Th.ttf') format('truetype'),
+	url('../fonts/hinted-HelveticaNeueLTStd-Th.woff') format('woff'),
+	url('../fonts/hinted-HelveticaNeueLTStd-Th.woff2') format('woff2'),
+	url('../fonts/hinted-HelveticaNeueLTStd-Th.eot'),
+	url('../fonts/hinted-HelveticaNeueLTStd-Th.svg#HelveticaNeueLTStd-Th') format('svg');
+	font-weight: 100;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Helvetica Neue LT Std';
+	src: local('Helvetica Neue LT Std 45 Light'), local('HelveticaNeueLTStd-Lt'),
+	url('../fonts/hinted-HelveticaNeueLTStd-Lt.ttf') format('truetype'),
+	url('../fonts/hinted-HelveticaNeueLTStd-Lt.woff') format('woff'),
+	url('../fonts/hinted-HelveticaNeueLTStd-Lt.woff2') format('woff2'),
+	url('../fonts/hinted-HelveticaNeueLTStd-Lt.eot'),
+	url('../fonts/hinted-HelveticaNeueLTStd-Lt.svg#HelveticaNeueLTStd-Lt') format('svg');
+	font-weight: 200;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Helvetica Neue LT Std';
+	src: local('Helvetica Neue LT Std 55 Roman'), local('HelveticaNeueLTStd-Roman'),
+	url('../fonts/hinted-HelveticaNeueLTStd-Roman.ttf') format('truetype'),
+	url('../fonts/hinted-HelveticaNeueLTStd-Roman.woff') format('woff'),
+	url('../fonts/hinted-HelveticaNeueLTStd-Roman.woff2') format('woff2'),
+	url('../fonts/hinted-HelveticaNeueLTStd-Roman.eot'),
+	url('../fonts/hinted-HelveticaNeueLTStd-Roman.svg#HelveticaNeueLTStd-Roman') format('svg');
+	font-weight: 300;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Helvetica Neue LT Std';
+	src: local('Helvetica Neue LT Std 75 Bold'), local('HelveticaNeueLTStd-Bd'),
+	url('../fonts/hinted-HelveticaNeueLTStd-Bd.ttf') format('truetype'),
+	url('../fonts/hinted-HelveticaNeueLTStd-Bd.woff') format('woff'),
+	url('../fonts/hinted-HelveticaNeueLTStd-Bd.woff2') format('woff2'),
+	url('../fonts/hinted-HelveticaNeueLTStd-Bd.eot'),
+	url('../fonts/hinted-HelveticaNeueLTStd-Bd.svg#HelveticaNeueLTStd-Bd') format('svg');
+	font-weight: 400;
+	font-style: normal;
+}
+
+.helvetica-thin {
+	font-weight: 100 !important;
+	font-family: 'Helvetica Neue LT Std' !important;
+}
+
+.helvetica-light {
+	font-weight: 200 !important;
+	font-family: 'Helvetica Neue LT Std' !important;
+}
+
+.helvetica-roman {
+	font-weight: 300 !important;
+	font-family: 'Helvetica Neue LT Std' !important;
+}
+
+.helvetica-bold {
+	font-weight: 400 !important;
+	font-family: 'Helvetica Neue LT Std' !important;
+	letter-spacing: -1px !important;
+}
+
+* {
+	-webkit-font-smoothing: antialiased !important;
+	-moz-osx-font-smoothing: grayscale !important;
+}
+
+::-webkit-scrollbar {
+	width: 0 !important;
+	position: absolute !important;
+}
+
+::-webkit-scrollbar-track {
+	background-color: transparent !important;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: transparent !important;
+}
+
+.sidebar::-webkit-scrollbar {
+	width: 0 !important;
+}
