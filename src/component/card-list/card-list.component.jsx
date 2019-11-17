@@ -9,8 +9,8 @@ export const CardList = props => {
 				<div className="row px-2 pb-4">
 					
 					{props.productData.map(
-							( key, productDataMap, deliveryTimeMap ) => (
-									<Card key={key} productData={productDataMap} deliveryTime={deliveryTimeMap['delivery_time']}/>
+							( productDataMap, key ) => (
+									<Card key={key} productData={productDataMap} deliveryTime={productDataMap['delivery_time']}/>
 							)
 						)
 					}

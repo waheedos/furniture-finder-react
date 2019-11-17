@@ -119,6 +119,7 @@ class App extends Component {
 					
 					<CardList
 							productData={productNameSearch}
+							deliveryTime={deliveryTimeSearch}
 					/>
 				
 				</section>
