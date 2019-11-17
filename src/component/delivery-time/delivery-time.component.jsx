@@ -1,17 +1,38 @@
-import React from 'react';
+import React, {Component} from 'react';
+import Select from 'react-select';
 
-export const DeliveryTime = ({ handleChange }) => (
-		<select className="selectpicker show-tick w-100"
-		        data-style="bg-white"
-		        title="Delivery Time"
-		        onChange={handleChange}
-		        multiple>
-			<optgroup label="Delivery Time">
-				<option>1 Day</option>
-				<option>2 Days</option>
-				<option>3 Days</option>
-				<option>4 Days</option>
-				<option>5 Days</option>
-			</optgroup>
-		</select>
-);
+const DeliveryDays = [
+	{ value: '1', label: '1 Day' },
+	{ value: '7', label: '7 Days' },
+	{ value: '12', label: '12 Days' },
+	{ value: '14', label: '14 Days' },
+	{ value: '28', label: '28 Days' },
+];
+
+class DeliveryTime extends Component {
+	state = {
+		selectedOption: null,
+	};
+	
+	DeliveryTimeHandler = e => {
+		this.setState({ e });
+		console.log(`Option selected:`, e);
+	};
+	
+	render() {
+		const { TimeToDeliver } = this.state;
+		
+		return (
+				<Select
+						isMulti
+						closeMenuOnSelect={false}
+						hideSelectedOptions={false}
+						value={TimeToDeliver}
+						onChange={this.DeliveryTimeHandler}
+						options={DeliveryDays}
+				/>
+		);
+	}
+}
+
+export default DeliveryTime;

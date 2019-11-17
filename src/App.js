@@ -1,48 +1,32 @@
 import React, {Component} from 'react';
 import {CardList} from "./component/card-list/card-list.component";
 import {SearchBox} from "./component/search-box/search-box.component";
-import {StylesChecklist} from "./component/styles-checklist/styles-checklist.component";
 import Select from 'react-select';
 
-const options = [
-	{ value: 'chocolate', label: 'Chocolate' },
-	{ value: 'strawberry', label: 'Strawberry' },
-	{ value: 'vanilla', label: 'Vanilla' },
+const FurnitureStyles = [
+	{ value: 'Classic', label: 'Classic' },
+	{ value: 'Midcentury', label: 'Midcentury' },
+	{ value: 'Scandinavian', label: 'Scandinavian' },
+	{ value: 'Modern', label: 'Modern' },
+	{ value: 'Contemporary', label: 'Contemporary' }
+];
+
+const DeliveryDays = [
+	{ value: '1', label: '1 Day' },
+	{ value: '7', label: '7 Days' },
+	{ value: '12', label: '12 Days' },
+	{ value: '14', label: '14 Days' },
+	{ value: '28', label: '28 Days' }
 ];
 
 class App extends Component {
+	
 	constructor() {
 		super();
 		this.state = {
 			productData: [],
-			// productStyleJSON: [],
-			// productCategoryJSON: [],
-			Title: '',
-			SearchName: '',
-			SearchDeliveryTime: '',
-			SearchStyle: ''
+			SearchName: ''
 		};
-	}
-	
-	state = {
-		selectedOption: null,
-	};
-	
-	handleChange = selectedOption => {
-		this.setState({ selectedOption });
-		console.log(`Option selected:`, selectedOption);
-	};
-	
-	dataLog() {
-		fetch('http://www.mocky.io/v2/5c9105cb330000112b649af8')
-				.then(response => {
-					// if(response.status === 200){
-					return response.json()
-					// }
-				})
-				
-				.then(response => console.log(response));
-		
 	}
 	
 	dataFetch() {
@@ -53,36 +37,45 @@ class App extends Component {
 					}
 				})
 				
-				// .then( response => console.log(response));
-				
 				.then(dataJSON => {
 					this.setState({
-						productCategoryJSON: dataJSON['furniture_styles'],
-						productData: dataJSON['products'],
-						productStyle: dataJSON['products']['furniture_style']
+						productData: dataJSON['products']
 					})
 				})
 	}
 	
+	state = {
+		selectedOption: null,
+	};
+	
 	componentDidMount(){
 		this.dataFetch();
-		this.dataLog();
 	};
 	
 	onSearchChange = keyEvent => {
 		this.setState({
 			SearchName: keyEvent.target.value
-		})
+		});
+		console.log(keyEvent.target);
+	};
+	
+	FurnitureStyleHandler = Style => {
+		this.setState({ Style });
+		// console.log(`Furniture Selected:`, Style.target.value);
+	};
+	
+	DeliveryTimeHandler = Days => {
+		this.setState({ Days });
+		// console.log(`Time Selected:`, Days);
 	};
 	
 	render() {
-		const { selectedOption } = this.state;
-		
-		const {productData, SearchName} = this.state;
+		const { productData, SearchName, StyleOfFurniture, TimeToDeliver } = this.state;
 		
 		const productNameSearch = productData.filter(
-				product => product.name.toLowerCase().includes(
-						SearchName.toLowerCase(),
+			product => product.name.toLowerCase()
+				.includes(
+					SearchName.toLowerCase(),
 				)
 		);
 		
@@ -108,15 +101,26 @@ class App extends Component {
 						<div className="row">
 							
 							<div className="col-md-6 pt-3">
-								<StylesChecklist/>
+								<Select
+										placeholder='Furniture Style'
+										isMulti
+										closeMenuOnSelect={false}
+										hideSelectedOptions={false}
+										value={StyleOfFurniture}
+										onChange={this.FurnitureStyleHandler}
+										options={FurnitureStyles}
+								/>
 							</div>
 							
 							<div className="col-md-6 pt-3">
 								<Select
+										placeholder='Delivery Time'
 										isMulti
-										value={selectedOption}
-										onChange={this.handleChange}
-										options={options}
+										closeMenuOnSelect={false}
+										hideSelectedOptions={false}
+										value={TimeToDeliver}
+										onChange={this.DeliveryTimeHandler}
+										options={DeliveryDays}
 								/>
 							</div>
 						
