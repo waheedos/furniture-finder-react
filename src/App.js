@@ -2,7 +2,13 @@ import React, {Component} from 'react';
 import {CardList} from "./component/card-list/card-list.component";
 import {SearchBox} from "./component/search-box/search-box.component";
 import {StylesChecklist} from "./component/styles-checklist/styles-checklist.component";
-import {DeliveryTime} from "./component/delivery-time/delivery-time.component";
+import Select from 'react-select';
+
+const options = [
+	{ value: 'chocolate', label: 'Chocolate' },
+	{ value: 'strawberry', label: 'Strawberry' },
+	{ value: 'vanilla', label: 'Vanilla' },
+];
 
 class App extends Component {
 	constructor() {
@@ -17,6 +23,15 @@ class App extends Component {
 			SearchStyle: ''
 		};
 	}
+	
+	state = {
+		selectedOption: null,
+	};
+	
+	handleChange = selectedOption => {
+		this.setState({ selectedOption });
+		console.log(`Option selected:`, selectedOption);
+	};
 	
 	dataLog() {
 		fetch('http://www.mocky.io/v2/5c9105cb330000112b649af8')
@@ -60,29 +75,16 @@ class App extends Component {
 		})
 	};
 	
-	deliveryTimeChange = keyEvent => {
-		this.setState({
-			SearchDeliveryTime: keyEvent.target.value
-		})
-	};
-	
 	render() {
-		const {productData, SearchName, SearchDeliveryTime} = this.state;
+		const { selectedOption } = this.state;
+		
+		const {productData, SearchName} = this.state;
 		
 		const productNameSearch = productData.filter(
 				product => product.name.toLowerCase().includes(
-						SearchName.toLowerCase()
+						SearchName.toLowerCase(),
 				)
 		);
-		
-		const deliveryTimeSearch = productData.filter(
-				product => product['delivery_time'].toLowerCase().includes(
-						SearchDeliveryTime.toLowerCase()
-				)
-		);
-		// const productStyleSearch = productStyle.filter(
-		// 		productStyle => productStyle
-		// );
 		
 		return (
 				
@@ -110,7 +112,12 @@ class App extends Component {
 							</div>
 							
 							<div className="col-md-6 pt-3">
-								<DeliveryTime placeholder='Delivery Time' handleChange={this.deliveryTimeChange}/>
+								<Select
+										isMulti
+										value={selectedOption}
+										onChange={this.handleChange}
+										options={options}
+								/>
 							</div>
 						
 						</div>
@@ -119,7 +126,6 @@ class App extends Component {
 					
 					<CardList
 							productData={productNameSearch}
-							deliveryTime={deliveryTimeSearch}
 					/>
 				
 				</section>

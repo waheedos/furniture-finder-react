@@ -10,7 +10,7 @@ export const CardList = props => {
 					
 					{props.productData.map(
 							( productDataMap, key ) => (
-									<Card key={key} productData={productDataMap} deliveryTime={productDataMap['delivery_time']}/>
+									<Card key={key} productData={productDataMap}/>
 							)
 						)
 					}
