@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from '../card/card.component.jsx';
+import {Card} from '../card/card.component.jsx';
 
 export const CardList = props => {
 	// console.log(props);
@@ -8,9 +8,12 @@ export const CardList = props => {
 			<div className="container-fluid">
 				<div className="row px-2 pb-4">
 					
-					{props.furniture.map(furniture => (
-							<Card key={furniture.id} furniture={furniture}/>
-					))}
+					{props.productData.map(
+							( key, productDataMap, deliveryTimeMap ) => (
+									<Card key={key} productData={productDataMap} deliveryTime={deliveryTimeMap['delivery_time']}/>
+							)
+						)
+					}
 				
 				</div>
 			</div>

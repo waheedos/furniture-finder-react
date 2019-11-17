@@ -1,63 +1,89 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {CardList} from "./component/card-list/card-list.component";
 import {SearchBox} from "./component/search-box/search-box.component";
+import {StylesChecklist} from "./component/styles-checklist/styles-checklist.component";
+import {DeliveryTime} from "./component/delivery-time/delivery-time.component";
 
-class FurnitureFinder extends Component {
+class App extends Component {
 	constructor() {
 		super();
 		this.state = {
-			furniture: [],
-			searchField: ''
+			productData: [],
+			// productStyleJSON: [],
+			// productCategoryJSON: [],
+			Title: '',
+			SearchName: '',
+			SearchDeliveryTime: '',
+			SearchStyle: ''
 		};
-		// this.handleChange = this.handleChange.bind(this);
 	}
 	
-	// dataLog(){
-	// 	fetch('http://www.mocky.io/v2/5c9105cb330000112b649af8')
-	// 			.then( response => {
-	// 				if(response.status === 200){
-	// 					return response.json()
-	// 				}
-	// 			})
-	//
-	// 	.then( response => console.log(response) );
-	//
-	// }
+	dataLog() {
+		fetch('http://www.mocky.io/v2/5c9105cb330000112b649af8')
+				.then(response => {
+					// if(response.status === 200){
+					return response.json()
+					// }
+				})
+				
+				.then(response => console.log(response));
+		
+	}
 	
-	dataFetch(){
-		fetch('assets/data/data.json')
-				.then( response => {
-					if(response.status === 200){
-						return response.json()
+	dataFetch() {
+		fetch('http://www.mocky.io/v2/5c9105cb330000112b649af8')
+				.then(dataJSON => {
+					if (dataJSON.status === 200) {
+						return dataJSON.json()
 					}
 				})
 				
 				// .then( response => console.log(response));
 				
-				.then(dataResponse => {
+				.then(dataJSON => {
 					this.setState({
-						furnitureStyles: dataResponse['furniture_styles'],
-						furniture: dataResponse.products,
-						filteredProduct: dataResponse.products
+						productCategoryJSON: dataJSON['furniture_styles'],
+						productData: dataJSON['products'],
+						productStyle: dataJSON['products']['furniture_style']
 					})
 				})
 	}
 	
-	componentDidMount() {
+	componentDidMount(){
 		this.dataFetch();
-		// this.dataLog();
+		this.dataLog();
 	};
 	
+	onSearchChange = keyEvent => {
+		this.setState({
+			SearchName: keyEvent.target.value
+		})
+	};
 	
-	handleChange = e => {
-		this.setState({searchField: e.target.value})
+	deliveryTimeChange = keyEvent => {
+		this.setState({
+			SearchDeliveryTime: keyEvent.target.value
+		})
 	};
 	
 	render() {
-		const { furniture, searchField } = this.state;
-		const filteredfurniture = furniture.filter(
-				products => products.name.toLowerCase().includes(searchField.toLowerCase())
+		const {productData, SearchName, SearchDeliveryTime} = this.state;
+		
+		const productNameSearch = productData.filter(
+				product => product.name.toLowerCase().includes(
+						SearchName.toLowerCase()
+				)
 		);
+		
+		const deliveryTimeSearch = productData.filter(
+				product => product['delivery_time'].toLowerCase().includes(
+						SearchDeliveryTime.toLowerCase()
+				)
+		);
+		// const productStyleSearch = productStyle.filter(
+		// 		productStyle => productStyle
+		// );
+		
 		return (
 				
 				<section>
@@ -66,8 +92,12 @@ class FurnitureFinder extends Component {
 						<div className="row">
 							
 							<div className="col-md-6">
+								<h2 className='text-white my-2 my-md-0'>Search Furniture</h2>
+							</div>
+							
+							<div className="col-md-6">
 								<form className="form-inline my-2 my-md-0 border-bottom">
-									<SearchBox placeholder='Search Furniture' handleChange={this.handleChange} />
+									<SearchBox placeholder='Search Furniture' handleChange={this.onSearchChange}/>
 								</form>
 							</div>
 						
@@ -76,40 +106,20 @@ class FurnitureFinder extends Component {
 						<div className="row">
 							
 							<div className="col-md-6 pt-3">
-								<select className="selectpicker show-tick w-100"
-								        data-style="bg-white"
-								        title="Furniture Style"
-								        multiple>
-									<optgroup label="Furniture Style">
-										<option>Contemporary</option>
-										<option>Modern</option>
-										<option>Scandinavian</option>
-										<option>Classic</option>
-										<option>Midcentury</option>
-									</optgroup>
-								</select>
+								<StylesChecklist/>
 							</div>
 							
 							<div className="col-md-6 pt-3">
-								<select className="selectpicker show-tick w-100"
-								        data-style="bg-white"
-								        title="Delivery Time"
-								        multiple>
-									<optgroup label="Delivery Time">
-										<option>1 Day</option>
-										<option>2 Days</option>
-										<option>3 Days</option>
-										<option>4 Days</option>
-										<option>5 Days</option>
-									</optgroup>
-								</select>
+								<DeliveryTime placeholder='Delivery Time' handleChange={this.deliveryTimeChange}/>
 							</div>
 						
 						</div>
 					
 					</div>
 					
-					<CardList furniture={filteredfurniture}/>
+					<CardList
+							productData={productNameSearch}
+					/>
 				
 				</section>
 		
@@ -117,4 +127,4 @@ class FurnitureFinder extends Component {
 	}
 }
 
-export default FurnitureFinder;
+export default App;

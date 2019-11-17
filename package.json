@@ -5,6 +5,7 @@
   "homepage": "https://waheedos.com/furniture-finder-react",
   "dependencies": {
     "react": "^16.11.0",
+    "react-bootstrap-select": "^0.14.0",
     "react-dom": "^16.11.0",
     "react-scripts": "3.2.0"
   },
