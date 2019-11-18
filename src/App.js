@@ -33,7 +33,7 @@ class App extends Component {
 	// }
 	
 	dataFetch() {
-		fetch('http://www.mocky.io/v2/5c9105cb330000112b649af8')
+		fetch('./assets/data/data.json')
 				.then(dataJSON => {
 					if (dataJSON.status === 200) {
 						return dataJSON.json()
@@ -90,7 +90,7 @@ class App extends Component {
 			selectedOptionDeliveryTime: keyEvent,
 			filteredProductData: productDataFilteredByDeliveryTimeSelected,
 		});
-		console.log("productDataDeliver", productData);
+		// console.log("productDataDeliver", productData);
 	};
 	
 	onFurnitureStyleSelectChange = keyEvent => {
@@ -113,7 +113,7 @@ class App extends Component {
 			selectedOptionFurnitureStyle: keyEvent,
 			filteredProductData: productDataFilteredByFurnitureStyleSelected,
 		});
-		console.log("furnitureStyleOptionSelectedVal", furnitureStyleOptionSelectedVal);
+		// console.log("furnitureStyleOptionSelectedVal", furnitureStyleOptionSelectedVal);
 	};
 	
 	static sortUnique(arr) {
