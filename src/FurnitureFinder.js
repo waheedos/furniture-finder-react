@@ -7,7 +7,7 @@ class FurnitureFinder extends Component {
   constructor() {
     super();
     this.state = {
-      productNameJSON: [],
+      productDataJSON: [],
       productStyleJSON: [],
       // furnitureCategory: [],
       nameSearch: '',
@@ -40,7 +40,7 @@ class FurnitureFinder extends Component {
         .then(dataJSON => {
           this.setState({
             productCategoryJSON: dataJSON['furniture_styles'],
-            productNameJSON: dataJSON['products'],
+            productDataJSON: dataJSON['products'],
             productStyleJSON: dataJSON['products']['furniture_style']
           })
         })
@@ -51,8 +51,8 @@ class FurnitureFinder extends Component {
     this.dataLog();
   };
   
-  NameSearchHandleChange = SearchProductName => {
-    this.setState({nameSearch: SearchProductName.target.value})
+  NameSearchHandleChange = SearchproductData => {
+    this.setState({nameSearch: SearchproductData.target.value})
   };
   
   StyleSearchHandleChange = SearchProductStyle => {
@@ -60,9 +60,9 @@ class FurnitureFinder extends Component {
   };
   
   render() {
-    const {productNameJSON, productStyleJSON, nameSearch, styleSearch} = this.state;
-    const productNameSearch = productNameJSON.filter(
-        productNameJSON => productNameJSON.name.toLowerCase().includes(
+    const {productDataJSON, productStyleJSON, nameSearch, styleSearch} = this.state;
+    const productDataSearch = productDataJSON.filter(
+        productDataJSON => productDataJSON.name.toLowerCase().includes(
             nameSearch.toLowerCase()
         )
     );
@@ -111,7 +111,7 @@ class FurnitureFinder extends Component {
           
           </div>
           
-          <CardList productName={productNameSearch}/>
+          <CardList productData={productDataSearch}/>
         
         </section>
     

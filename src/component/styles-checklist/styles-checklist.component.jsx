@@ -1,55 +1,53 @@
 import React, {Component} from 'react';
 import Select from 'react-select';
 
-const FurnitureStyles = [
-	{ value: 'Classic', label: 'Classic' },
-	{ value: 'Midcentury', label: 'Midcentury' },
-	{ value: 'Scandinavian', label: 'Scandinavian' },
-	{ value: 'Modern', label: 'Modern' },
-	{ value: 'Contemporary', label: 'Contemporary' },
-];
-
 class StylesCheckList extends Component {
 	
-	// constructor() {
-	// 	super();
-	// 	this.state = {
-	// 		furnitureStyles: [],
-	// 	};
-	// }
+	constructor() {
+		super();
+		this.state = {
+			FurnitureCategory: [],
+		};
+	}
 	
-	// stylesFetch() {
-	// 	fetch('http://www.mocky.io/v2/5c9105cb330000112b649af8')
-	// 			.then(dataJSON => {
-	// 				if (dataJSON.status === 200) {
-	// 					return dataJSON.json()
-	// 				}
-	// 			})
-	//
-	// 			.then( dataJSON => console.log(dataJSON['furniture_styles']))
-	//
-	// 			.then(dataJSON => {
-	// 				this.setState({
-	// 					furnitureStyles: dataJSON['furniture_styles']
-	// 				})
-	// 			});
-	// }
-	//
-	// componentDidMount(){
-	// 	this.stylesFetch();
-	// };
+	stylesFetch() {
+		fetch('http://www.mocky.io/v2/5c9105cb330000112b649af8')
+				.then(dataJSON => {
+					if (dataJSON.status === 200) {
+						return dataJSON.json()
+					}
+				})
+				
+				.then(dataJSON => {
+					this.setState({
+						FurnitureCategory: dataJSON['furniture_styles']
+					});
+					// console.log(dataJSON['furniture_styles'])
+				})
+	}
+
+	componentDidMount(){
+		this.stylesFetch();
+	};
 	
 	state = {
 		selectedOption: null,
 	};
 	
-	FurnitureStyleHandler = e => {
-		this.setState({ e });
-		console.log(`Option selected:`, e);
+	FurnitureStyleHandler = FurnitureStyle => {
+		this.setState({ FurnitureStyle });
+		console.log(`Furniture Selected:`, FurnitureStyle);
 	};
 	
 	render() {
-		const { StyleOfFurniture } = this.state;
+		const { StyleOfFurniture, FurnitureCategory } = this.state;
+		const FurnitureOptions = [];
+		FurnitureCategory.map((value) => {
+			FurnitureOptions.push({
+				value: value,
+				label: value
+			})
+		});
 		
 		return (
 				<Select
@@ -58,7 +56,7 @@ class StylesCheckList extends Component {
 						hideSelectedOptions={false}
 						value={StyleOfFurniture}
 						onChange={this.FurnitureStyleHandler}
-						options={FurnitureStyles}
+						options={FurnitureOptions}
 				/>
 		);
 	}
