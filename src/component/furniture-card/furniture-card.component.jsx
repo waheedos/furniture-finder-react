@@ -27,9 +27,9 @@ export const FurnitureCard = ( productDataMap ) => (
 						</div>
 					</div>
 					
-					<div className="w-100 text-right px-0 py-md-0 py-2">
-						<div className="text-primary text-underline">
-							Delivery Time: <b>{productDataMap.productData['delivery_time']} {productDataMap.productData['delivery_time'] > 1 ? "Days" : "Day" }</b>
+					<div className="w-100 text-md-right text-left px-0 py-md-0 py-2">
+						<div className="text-primary">
+							<span className='text-underline'>Delivery Time</span>: <b>{productDataMap.productData['delivery_time']} {productDataMap.productData['delivery_time'] > 1 ? "Days" : "Day" }</b>
 						</div>
 					</div>
 				

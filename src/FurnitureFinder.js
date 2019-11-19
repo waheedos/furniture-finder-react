@@ -28,7 +28,7 @@ class FurnitureFinder extends Component {
           }
         })
         
-        // .then( dataJSON => console.log(dataJSON));
+        // .then( dataJSON => console.log(dataJSON))
         
         .then(dataJSON => {
           this.setState({
@@ -45,15 +45,25 @@ class FurnitureFinder extends Component {
   };
   
   onSearchChange = keyEvent => {
+    
     const {productData} = this.state;
+    
     let keyTargetValue = keyEvent.target.value.toLowerCase();
+    
     let filteredProductDataBySearchField = productData.filter(
-        product => product['name'].toLowerCase().includes( keyTargetValue )
+        product =>
+            product['name'].toLowerCase().includes( keyTargetValue )
             ||
             product['description'].toLowerCase().includes( keyTargetValue )
             ||
             product['price'].toString().includes( keyTargetValue )
+            // ||
+            // product['delivery_time'].toLowerCase().includes( keyTargetValue )
+            // ||
+            // product['furniture_style'].toLowerCase().includes( keyTargetValue )
+            
     );
+    
     this.setState({
       filteredProductData: filteredProductDataBySearchField
     })
@@ -101,14 +111,21 @@ class FurnitureFinder extends Component {
     let productDataFilteredByFurnitureStyleSelected;
     
     if (keyEvent !== null) {
+      
       furnitureStyleOptionSelectedVal = keyEvent.map(furnitureStyle => furnitureStyle.value);
+      
       const furnitureStyleOptionSelectedValSet = new Set(furnitureStyleOptionSelectedVal);
+      
       productDataFilteredByFurnitureStyleSelected = productData.filter(
+          
           (product) => product['furniture_style'].some((furnitureStyle) => furnitureStyleOptionSelectedValSet.has(furnitureStyle))
+          
       );
+      
       if (furnitureStyleOptionSelectedVal === null || furnitureStyleOptionSelectedVal.length === 0) {
         productDataFilteredByFurnitureStyleSelected = productData;
       }
+      
     }
     
     else {
@@ -117,7 +134,7 @@ class FurnitureFinder extends Component {
     
     this.setState({
       selectedOptionFurnitureStyle: keyEvent,
-      filteredProductData: productDataFilteredByFurnitureStyleSelected,
+      filteredProductData: productDataFilteredByFurnitureStyleSelected
     });
     // console.log("furnitureStyleOptionSelectedVal", furnitureStyleOptionSelectedVal);
   };
@@ -155,14 +172,14 @@ class FurnitureFinder extends Component {
       optionsDeliveryTime.push({
         value: value,
         label: value > 1 ? value + " Days" : value + " Day"
-      })
+      });
     });
     
     furnitureStyleListMergedSorted.map((value) => {
       optionsFurnitureStyle.push({
         value: value,
         label: value
-      })
+      });
     });
     
     // console.log('deliveryTimeListSorted', deliveryTimeListSorted);
@@ -174,7 +191,7 @@ class FurnitureFinder extends Component {
         
         <section>
           
-          <nav className="nav navbar flex-column fixed-top-lg bg-primary p-4">
+          <nav className="nav navbar flex-column fixed-top-lg bg-primary pt-3 pb-4 px-2">
             <div className="row w-100">
               
               <div className="col-md-6">

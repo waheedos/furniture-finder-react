@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/furniture-finder-react/precache-manifest.676f46188f045333409a8a765bd339b9.js"
+  "/furniture-finder-react/precache-manifest.ce49cf95ae94ad8ff3e0b88ed75e7ea2.js"
 );
 
 self.addEventListener('message', (event) => {
