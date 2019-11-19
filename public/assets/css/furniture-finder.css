@@ -9,12 +9,25 @@ html, body {
 	outline-width: 0px !important;
 }
 
-.bootstrap-select > .btn, .dropdown-item {
-	font-weight: 300 !important;
+.text-underline {
+	text-decoration: underline !important;
 }
 
 .dropdown-menu {
 	max-width: 100% !important;
+}
+
+@media (min-width: 768px) {
+	.fixed-top-lg {
+		position: fixed;
+		top: 0;
+		right: 0;
+		left: 0;
+		z-index: 1030;
+	}
+	.navbar-padding-top-lg {
+		margin-top: 9.5rem;
+	}
 }
 
 input.form-control {
@@ -33,40 +46,40 @@ input.form-control {
 	/*-webkit-appearance: none;*/
 /*}*/
 
-.opt.dropdown-item:before {
-	position: absolute;
-	right: 25px;
-	top: 4px;
-	content: '';
-	width: 1.5rem;
-	height: 1.5rem;
-	border: 1px solid black;
-	-webkit-border-radius: 0.15rem !important;
-	-moz-border-radius: 0.15rem !important;
-	border-radius: 0.15rem !important;
-}
+/*.opt.dropdown-item:before {*/
+	/*position: absolute;*/
+	/*right: 25px;*/
+	/*top: 4px;*/
+	/*content: '';*/
+	/*width: 1.5rem;*/
+	/*height: 1.5rem;*/
+	/*border: 1px solid black;*/
+	/*-webkit-border-radius: 0.15rem !important;*/
+	/*-moz-border-radius: 0.15rem !important;*/
+	/*border-radius: 0.15rem !important;*/
+/*}*/
 
-.bs-ok-default.check-mark:before {
-	position: absolute;
-	right: -8px;
-	top: -3px;
-	content: '';
-	width: 1.55rem;
-	height: 1.55rem;
-	-webkit-border-radius: 0.15rem !important;
-	-moz-border-radius: 0.15rem !important;
-	border-radius: 0.15rem !important;
-	background: #009688 !important;
-}
+/*.bs-ok-default.check-mark:before {*/
+	/*position: absolute;*/
+	/*right: -8px;*/
+	/*top: -3px;*/
+	/*content: '';*/
+	/*width: 1.55rem;*/
+	/*height: 1.55rem;*/
+	/*-webkit-border-radius: 0.15rem !important;*/
+	/*-moz-border-radius: 0.15rem !important;*/
+	/*border-radius: 0.15rem !important;*/
+	/*background: #009688 !important;*/
+/*}*/
 
-.bootstrap-select .bs-ok-default:after {
-	border-color: white !important;
-}
+/*.bootstrap-select .bs-ok-default:after {*/
+	/*border-color: white !important;*/
+/*}*/
 
-.bootstrap-select.show-tick .dropdown-menu .selected span.check-mark {
-	right: 32px !important;
-	top: 6px !important;
-}
+/*.bootstrap-select.show-tick .dropdown-menu .selected span.check-mark {*/
+	/*right: 32px !important;*/
+	/*top: 6px !important;*/
+/*}*/
 
 p, small, input, select, .btn-sm {
 	font-weight: 200 !important;
@@ -83,14 +96,10 @@ p, small, input, select, .btn-sm {
 	color: white !important;
 	font-weight: 400 !important;
 	font-size: 1.5rem !important;
-	
-	
 }
 
 ::-ms-input-placeholder { /* Microsoft Edge */
 	color: white !important;
 	font-weight: 400 !important;
 	font-size: 1.5rem !important;
-	
-	
 }

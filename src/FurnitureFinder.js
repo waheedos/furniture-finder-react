@@ -1,117 +1,228 @@
 import React, {Component} from 'react';
-import {CardList} from "./component/card-list/card-list.component";
-import {SearchBox} from "./component/search-box/search-box.component";
-import {StylesChecklist} from "./component/styles-checklist/styles-checklist.component";
+import {FurnitureCardList} from "./component/furniture-card-list/furniture-card-list.component";
+import {SearchFilter} from "./component/search-filter/search-filter.component";
+import Select from 'react-select';
 
 class FurnitureFinder extends Component {
   constructor() {
     super();
     this.state = {
-      productDataJSON: [],
-      productStyleJSON: [],
-      // furnitureCategory: [],
-      nameSearch: '',
-      styleSearch: '',
+      productData: [],
+      filteredProductData: [],
+      Title: '',
+      SearchName: '',
+      SearchDeliveryTime: '',
+      SearchStyle: '',
+      selectedOptionDeliveryTime: null,
+      selectedOptionFurnitureStyle: null
     };
   }
   
-  dataLog(){
-    fetch('http://www.mocky.io/v2/5c9105cb330000112b649af8')
-        .then( response => {
-          if(response.status === 200){
-            return response.json()
-          }
-        })
-        
-        .then( response => console.log(response) );
-    
-  }
-  
   dataFetch() {
-    fetch('assets/data/data.json')
+    // fetch('http://www.mocky.io/v2/5c9105cb330000112b649af8')
+    // make local for https purpose
+    fetch('./assets/data/data.json')
         .then(dataJSON => {
           if (dataJSON.status === 200) {
             return dataJSON.json()
           }
         })
         
-        // .then( response => console.log(response));
+        // .then( dataJSON => console.log(dataJSON));
         
         .then(dataJSON => {
           this.setState({
             productCategoryJSON: dataJSON['furniture_styles'],
-            productDataJSON: dataJSON['products'],
-            productStyleJSON: dataJSON['products']['furniture_style']
+            productData: dataJSON['products'],
+            filteredProductData: dataJSON['products'],
+            productStyle: dataJSON['products']['furniture_style']
           })
         })
   }
   
   componentDidMount() {
     this.dataFetch();
-    this.dataLog();
   };
   
-  NameSearchHandleChange = SearchproductData => {
-    this.setState({nameSearch: SearchproductData.target.value})
+  onSearchChange = keyEvent => {
+    const {productData} = this.state;
+    let keyTargetValue = keyEvent.target.value.toLowerCase();
+    let filteredProductDataBySearchField = productData.filter(
+        product => product['name'].toLowerCase().includes( keyTargetValue )
+            ||
+            product['description'].toLowerCase().includes( keyTargetValue )
+            ||
+            product['price'].toString().includes( keyTargetValue )
+    );
+    this.setState({
+      filteredProductData: filteredProductDataBySearchField
+    })
+    
   };
   
-  StyleSearchHandleChange = SearchProductStyle => {
-    this.setState({styleSearch: SearchProductStyle.target.value})
+  onDeliveryTimeSelectChange = keyEvent => {
+    
+    const {productData} = this.state;
+    
+    let deliveryOptionSelectedVal;
+    
+    let productDataFilteredByDeliveryTimeSelected;
+    
+    if (keyEvent !== null) {
+      deliveryOptionSelectedVal = keyEvent.map(deliveryTime => deliveryTime.value);
+      productDataFilteredByDeliveryTimeSelected = productData.filter(
+          function (e) {
+            return this.indexOf(e['delivery_time']) >= 0;
+          },
+          deliveryOptionSelectedVal
+      );
+      if (deliveryOptionSelectedVal === null || deliveryOptionSelectedVal.length === 0) {
+        productDataFilteredByDeliveryTimeSelected = productData;
+      }
+    }
+    
+    else {
+      productDataFilteredByDeliveryTimeSelected = productData;
+    }
+    
+    this.setState({
+      selectedOptionDeliveryTime: keyEvent,
+      filteredProductData: productDataFilteredByDeliveryTimeSelected
+    });
+    // console.log("productDataDeliver", productData);
   };
+  
+  onFurnitureStyleSelectChange = keyEvent => {
+    
+    const {productData} = this.state;
+    
+    let furnitureStyleOptionSelectedVal;
+    
+    let productDataFilteredByFurnitureStyleSelected;
+    
+    if (keyEvent !== null) {
+      furnitureStyleOptionSelectedVal = keyEvent.map(furnitureStyle => furnitureStyle.value);
+      const furnitureStyleOptionSelectedValSet = new Set(furnitureStyleOptionSelectedVal);
+      productDataFilteredByFurnitureStyleSelected = productData.filter(
+          (product) => product['furniture_style'].some((furnitureStyle) => furnitureStyleOptionSelectedValSet.has(furnitureStyle))
+      );
+      if (furnitureStyleOptionSelectedVal === null || furnitureStyleOptionSelectedVal.length === 0) {
+        productDataFilteredByFurnitureStyleSelected = productData;
+      }
+    }
+    
+    else {
+      productDataFilteredByFurnitureStyleSelected = productData;
+    }
+    
+    this.setState({
+      selectedOptionFurnitureStyle: keyEvent,
+      filteredProductData: productDataFilteredByFurnitureStyleSelected,
+    });
+    // console.log("furnitureStyleOptionSelectedVal", furnitureStyleOptionSelectedVal);
+  };
+  
+  static sortUnique(arr) {
+    if (arr.length === 0) return arr;
+    arr = arr.sort(function (a, b) {
+      return a * 1 - b * 1;
+    });
+    const ret = [arr[0]];
+    for (let i = 1; i < arr.length; i++) {
+      if (arr[i - 1] !== arr[i]) {
+        ret.push(arr[i]);
+      }
+    }
+    return ret;
+  }
   
   render() {
-    const {productDataJSON, productStyleJSON, nameSearch, styleSearch} = this.state;
-    const productDataSearch = productDataJSON.filter(
-        productDataJSON => productDataJSON.name.toLowerCase().includes(
-            nameSearch.toLowerCase()
-        )
-    );
-    // const productStyleSearch = productStyleJSON.filter(
-    // 		productStyleJSON => productStyleJSON.toLowerCase().includes(
-    // 				styleSearch.toLowerCase()
-    // 		)
-    // );
+    
+    const {productData, selectedOptionDeliveryTime, selectedOptionFurnitureStyle, filteredProductData} = this.state;
+    
+    let optionsDeliveryTime = [];
+    
+    let optionsFurnitureStyle = [];
+    
+    const deliveryTimeListSorted = FurnitureFinder.sortUnique(productData.map(products => products['delivery_time']));
+    
+    const furnitureStyleList = productData.map(products => products['furniture_style']);
+    
+    const furnitureStyleListMerged = [].concat.apply([], furnitureStyleList);
+    
+    const furnitureStyleListMergedSorted = FurnitureFinder.sortUnique(furnitureStyleListMerged.sort());
+    deliveryTimeListSorted.map((value) => {
+      optionsDeliveryTime.push({
+        value: value,
+        label: value > 1 ? value + " Days" : value + " Day"
+      })
+    });
+    
+    furnitureStyleListMergedSorted.map((value) => {
+      optionsFurnitureStyle.push({
+        value: value,
+        label: value
+      })
+    });
+    
+    // console.log('deliveryTimeListSorted', deliveryTimeListSorted);
+    // console.log('selectedOption', selectedOptionDeliveryTime);
+    // console.log('furnitureStyleBef', furnitureStyleListMerged);
+    // console.log('furnitureStyle', furnitureStyleListMergedSorted);
+    
     return (
         
         <section>
           
-          <div className="bg-primary p-4">
-            <div className="row">
+          <nav className="nav navbar flex-column fixed-top-lg bg-primary p-4">
+            <div className="row w-100">
+              
+              <div className="col-md-6">
+                <h2 className='text-white my-2 my-md-0'>Furniture Finder</h2>
+              </div>
               
               <div className="col-md-6">
                 <form className="form-inline my-2 my-md-0 border-bottom">
-                  <SearchBox placeholder='Search Furniture' handleChange={this.NameSearchHandleChange}/>
+                  <SearchFilter placeholder='Search Furniture' handleChange={this.onSearchChange}/>
                 </form>
               </div>
             
             </div>
             
-            <div className="row">
+            <div className="row w-100">
               
               <div className="col-md-6 pt-3">
-                <StylesChecklist handleChange={this.StyleSearchHandleChange}/>
+                <Select
+                    classNamePrefix
+                    placeholder='Furniture Styles'
+                    hideSelectedOptions={false}
+                    closeMenuOnSelect={false}
+                    isMulti
+                    value={selectedOptionFurnitureStyle}
+                    onChange={this.onFurnitureStyleSelectChange}
+                    options={optionsFurnitureStyle}
+                />
               </div>
               
               <div className="col-md-6 pt-3">
-                <select className="selectpicker show-tick w-100"
-                        data-style="bg-white"
-                        title="Delivery Time"
-                        multiple>
-                  <optgroup label="Delivery Time">
-                    <option>1 Day</option>
-                    <option>2 Days</option>
-                    <option>3 Days</option>
-                    <option>4 Days</option>
-                    <option>5 Days</option>
-                  </optgroup>
-                </select>
+                <Select
+                    placeholder='Delivery Time'
+                    hideSelectedOptions={false}
+                    closeMenuOnSelect={false}
+                    isMulti
+                    value={selectedOptionDeliveryTime}
+                    onChange={this.onDeliveryTimeSelectChange}
+                    options={optionsDeliveryTime}
+                />
               </div>
             
             </div>
           
-          </div>
+          </nav>
           
-          <CardList productData={productDataSearch}/>
+          <FurnitureCardList
+              productData={filteredProductData}
+          />
         
         </section>
     

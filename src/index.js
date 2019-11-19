@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import './index.css';
-// import FurnitureFinder from './FurnitureFinder';
-import App from './App'
+import FurnitureFinder from './FurnitureFinder';
 // import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-		<App/>,
-		document.getElementById('root'));
+		<FurnitureFinder/>,
+		document.getElementById('furnitureFinder'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
